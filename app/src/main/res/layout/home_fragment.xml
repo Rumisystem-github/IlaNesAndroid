@@ -3,9 +3,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-	<TextView
-			android:text="ホーむ"
+	<ListView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:id="@+id/textView" />
+			android:id="@+id/home_follow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 
 import su.rumishistem.android.ilanesandroid.Activity.Fragment.HomeFragment;
 import su.rumishistem.android.ilanesandroid.Module.IPCHTTP;
+import su.rumishistem.android.ilanesandroid.Module.UserIconManager;
 import su.rumishistem.android.ilanesandroid.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
 				try {
 					Token = IPCHTTP.getToken();
 					SelfUser = IPCHTTP.getSelf();
+
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							ChangeFragment(new HomeFragment(CTX));
+						}
+					});
 				} catch (Error ERR) {
 					runOnUiThread(new Runnable() {
 						@Override
@@ -114,8 +122,6 @@ public class MainActivity extends AppCompatActivity {
 				return true;
 			}
 		});
-
-		ChangeFragment(new HomeFragment(CTX));
 	}
 
 	private void ChangeFragment(androidx.fragment.app.Fragment Fragment) {
@@ -125,5 +131,9 @@ public class MainActivity extends AppCompatActivity {
 				.beginTransaction()
 				.replace(R.id.content_frame, Fragment)
 				.commit();
+	}
+
+	public String getToken() {
+		return Token;
 	}
 }
