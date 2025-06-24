@@ -16,19 +16,17 @@
 					android:id="@+id/illust_list"
 					android:orientation="vertical"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
-
-			</LinearLayout>
+					android:layout_height="wrap_content" />
 			<!--タイトル-->
 			<TextView
-					android:text="タイトル"
+					android:text=""
 					android:textIsSelectable="true"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:id="@+id/title" />
 			<!--説明欄-->
 			<TextView
-					android:text="説明"
+					android:text="読み込み中"
 					android:textIsSelectable="true"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -45,7 +43,7 @@
 						tools:srcCompat="@tools:sample/avatars"
 						android:id="@+id/user_icon" />
 				<TextView
-						android:text="TextView"
+						android:text=""
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:id="@+id/user_name" />
