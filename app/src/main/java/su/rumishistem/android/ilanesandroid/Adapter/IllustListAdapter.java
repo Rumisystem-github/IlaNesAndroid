@@ -1,8 +1,8 @@
 package su.rumishistem.android.ilanesandroid.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.List;
-
+import su.rumishistem.android.ilanesandroid.Activity.IllustView;
 import su.rumishistem.android.ilanesandroid.Module.IllustThumbnailManager;
 import su.rumishistem.android.ilanesandroid.Module.UserIconManager;
 import su.rumishistem.android.ilanesandroid.R;
@@ -77,6 +76,15 @@ public class IllustListAdapter extends BaseAdapter {
 				Thumbnail.setImageBitmap(ScaledBitmap);
 			}
 		}
+
+		Thumbnail.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent INT = new Intent(CTX, IllustView.class);
+				INT.putExtra("ID", Row.get("ID").asText());
+				CTX.startActivity(INT);
+			}
+		});
 
 		return ConvertView;
 	}

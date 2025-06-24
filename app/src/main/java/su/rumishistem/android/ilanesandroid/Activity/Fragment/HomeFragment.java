@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,8 @@ import su.rumishistem.android.ilanesandroid.R;
 
 public class HomeFragment extends Fragment {
 	private MainActivity Parent;
+
+	private JsonNode FollowIllust = null;
 
 	public HomeFragment(MainActivity ParentActivity) {
 		this.Parent = ParentActivity;
@@ -35,18 +38,17 @@ public class HomeFragment extends Fragment {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				JsonNode Return = API.RunGet("Home?SORT=DESC", Parent.getToken());
-				System.out.println(Return);
+				JsonNode Home = API.RunGet("Home?SORT=DESC", Parent.getToken());
+				FollowIllust = Home.get("FOLLOW");
 
 				Parent.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
+						ListView FollowLV = V.findViewById(R.id.home_follow);
 						Context CTX = requireContext();
 
-						ListView LV = V.findViewById(R.id.home_follow);
-
-						IllustListAdapter Adapter = new IllustListAdapter(CTX, Return.get("FOLLOW"));
-						LV.setAdapter(Adapter);
+						IllustListAdapter Adapter = new IllustListAdapter(CTX, FollowIllust);
+						FollowLV.setAdapter(Adapter);
 					}
 				});
 			}

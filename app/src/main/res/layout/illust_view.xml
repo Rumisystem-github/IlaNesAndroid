@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+	<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+		<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+			<!--イラストのImageViewをぶち込む-->
+			<LinearLayout
+					android:id="@+id/illust_list"
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+			</LinearLayout>
+			<!--タイトル-->
+			<TextView
+					android:text="タイトル"
+					android:textIsSelectable="true"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/title" />
+			<!--説明欄-->
+			<TextView
+					android:text="説明"
+					android:textIsSelectable="true"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/desc" />
+
+			<!--ユーザー情報-->
+			<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+				<ImageView
+						android:layout_width="45sp"
+						android:layout_height="45sp"
+						tools:srcCompat="@tools:sample/avatars"
+						android:id="@+id/user_icon" />
+				<TextView
+						android:text="TextView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:id="@+id/user_name" />
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

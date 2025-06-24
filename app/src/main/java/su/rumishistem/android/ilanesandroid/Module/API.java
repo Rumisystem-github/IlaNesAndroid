@@ -213,6 +213,36 @@ public class API {
 		}
 	}
 
+	public static byte[] GetImage(String ID, int Page, String Token) {
+		try {
+			HttpURLConnection Connection = OpenConnection(GetAPIHost.HTTP() + "GetIMAGE?ID=" + URLEncoder.encode(ID) + "&PAGE=" + Page);
+			Connection.setRequestMethod("GET");
+
+			if (Token != null) {
+				Connection.setRequestProperty("TOKEN", Token);
+			}
+
+			//応答を取得
+			int Code = Connection.getResponseCode();
+			InputStream IS = (Code < HttpsURLConnection.HTTP_BAD_REQUEST)
+					?Connection.getInputStream()
+					:Connection.getErrorStream();
+
+			//読む
+			ByteArrayOutputStream BAOS = new ByteArrayOutputStream();
+			byte[] Temp = new byte[4096];
+			int Length;
+			while ((Length = IS.read(Temp)) != -1) {
+				BAOS.write(Temp, 0, Length);
+			}
+
+			return BAOS.toByteArray();
+		} catch (Exception EX) {
+			EX.printStackTrace();
+			throw new Error("接続失敗");
+		}
+	}
+
 	private static HttpURLConnection OpenConnection(String Path) throws IOException {
 		URL RequestURL = new URL(Path);
 		System.out.println("HTTP:" + RequestURL.toString());
