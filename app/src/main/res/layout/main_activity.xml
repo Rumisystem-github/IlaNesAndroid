@@ -15,9 +15,7 @@
 				android:id="@+id/HomeToolbar"
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
-				android:background="?attr/colorPrimary"
-				app:title="タイトル"
-				app:titleTextColor="@android:color/white" />
+				app:title="タイトル" />
 
 		<FrameLayout
 				android:id="@+id/content_frame"

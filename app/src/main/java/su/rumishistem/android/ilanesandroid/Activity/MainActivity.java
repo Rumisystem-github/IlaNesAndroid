@@ -115,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
 				if (ItemID == R.id.menu_home) {
 					Fragment = new HomeFragment(CTX);
+				} else if (ItemID == R.id.menu_profile) {
+					Intent INT = new Intent(CTX, UserView.class);
+					INT.putExtra("UID", SelfUser.get("UID").asText());
+					CTX.startActivity(INT);
+					return true;
 				}
 
 				if (Fragment != null) ChangeFragment(Fragment);

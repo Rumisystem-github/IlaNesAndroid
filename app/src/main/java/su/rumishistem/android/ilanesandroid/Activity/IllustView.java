@@ -3,6 +3,7 @@ package su.rumishistem.android.ilanesandroid.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -85,10 +86,22 @@ public class IllustView extends AppCompatActivity {
 						//ユーザーのアイコン
 						ImageView UserIconImageView = findViewById(R.id.user_icon);
 						UserIconImageView.setImageBitmap(UserIconManager.Get(User.get("UID").asText()));
+						UserIconImageView.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View view) {
+								OpenUserView(User.get("UID").asText());
+							}
+						});
 
 						//ユーザー名
 						TextView UserNameTextView = findViewById(R.id.user_name);
 						UserNameTextView.setText(User.get("NAME").asText());
+						UserNameTextView.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View view) {
+								OpenUserView(User.get("UID").asText());
+							}
+						});
 					}
 				});
 
@@ -108,5 +121,11 @@ public class IllustView extends AppCompatActivity {
 				}
 			}
 		}).start();
+	}
+
+	private void OpenUserView(String UID) {
+		Intent INT = new Intent(CTX, UserView.class);
+		INT.putExtra("UID", UID);
+		CTX.startActivity(INT);
 	}
 }

@@ -13,19 +13,20 @@ import android.widget.TextView;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import su.rumishistem.android.ilanesandroid.Activity.IllustView;
-import su.rumishistem.android.ilanesandroid.Activity.UserView;
 import su.rumishistem.android.ilanesandroid.Module.IllustThumbnailManager;
 import su.rumishistem.android.ilanesandroid.Module.UserIconManager;
 import su.rumishistem.android.ilanesandroid.R;
 
-public class IllustListAdapter extends BaseAdapter {
+public class UserIllustListAdapter extends BaseAdapter {
 	private Context CTX;
 	private JsonNode ItemList;
+	private JsonNode User;
 	private LayoutInflater Inflater;
 
-	public IllustListAdapter(Context CTX, JsonNode ItemList) {
+	public UserIllustListAdapter(Context CTX, JsonNode ItemList, JsonNode User) {
 		this.CTX = CTX;
 		this.ItemList = ItemList;
+		this.User = User;
 		this.Inflater = LayoutInflater.from(CTX);
 	}
 
@@ -58,13 +59,13 @@ public class IllustListAdapter extends BaseAdapter {
 		TextView UserName = ConvertView.findViewById(R.id.user_name);
 
 		Title.setText(Row.get("TITLE").asText());
-		UserName.setText(Row.get("ACCOUNT").get("NAME").asText());
+		UserName.setText(User.get("NAME").asText());
 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				//アイコン
-				Bitmap Icon = UserIconManager.Get(Row.get("ACCOUNT").get("UID").asText());
+				Bitmap Icon = UserIconManager.Get(User.get("UID").asText());
 				((android.app.Activity) CTX).runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -106,26 +107,6 @@ public class IllustListAdapter extends BaseAdapter {
 			}
 		});
 
-		//ユーザーを開く
-		UserIcon.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				OpenUserView(Row.get("ACCOUNT").get("UID").asText());
-			}
-		});
-		UserName.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				OpenUserView(Row.get("ACCOUNT").get("UID").asText());
-			}
-		});
-
 		return ConvertView;
-	}
-
-	private void OpenUserView(String UID) {
-		Intent INT = new Intent(CTX, UserView.class);
-		INT.putExtra("UID", UID);
-		CTX.startActivity(INT);
 	}
 }

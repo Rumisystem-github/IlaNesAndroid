@@ -27,5 +27,6 @@
 		</activity>
 
 		<activity android:name=".Activity.IllustView" />
+		<activity android:name=".Activity.UserView" />
 	</application>
 </manifest>

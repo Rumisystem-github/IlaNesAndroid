@@ -1,6 +1,7 @@
 package su.rumishistem.android.ilanesandroid.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import su.rumishistem.android.ilanesandroid.Activity.UserView;
 import su.rumishistem.android.ilanesandroid.Module.UserIconManager;
 import su.rumishistem.android.ilanesandroid.R;
 
@@ -57,10 +59,10 @@ public class CommentListAdapter extends BaseAdapter {
 		Text.setText(Row.get("TEXT").asText());
 		ReplyCount.setText(Row.get("REPLY_COUNT").asText());
 
+		//アイコン
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				//アイコン
 				Bitmap Icon = UserIconManager.Get(Row.get("ACCOUNT").get("UID").asText());
 				((android.app.Activity) CTX).runOnUiThread(new Runnable() {
 					@Override
@@ -71,6 +73,27 @@ public class CommentListAdapter extends BaseAdapter {
 			}
 		}).start();
 
+		//ユーザーを開くやつ
+		UserIcon.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				OpenUserView(Row.get("ACCOUNT").get("UID").asText());
+			}
+		});
+		UserName.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				OpenUserView(Row.get("ACCOUNT").get("UID").asText());
+			}
+		});
+
+
 		return ConvertView;
+	}
+
+	private void OpenUserView(String UID) {
+		Intent INT = new Intent(CTX, UserView.class);
+		INT.putExtra("UID", UID);
+		CTX.startActivity(INT);
 	}
 }

@@ -17,6 +17,7 @@
 		<!--作ったテーマをばーん-->
 		<item name="materialButtonStyle">@style/Widget.Rumi.Button</item>
 		<item name="android:textViewStyle">@style/Widget.Rumi.TextView</item>
+		<item name="toolbarStyle">@style/Widget.Rumi.Toolbar</item>
 	</style>
 
 	<!--テキスト-->
@@ -30,5 +31,11 @@
 		<item name="backgroundTint">@color/theme_color_sec</item>
 		<item name="android:textColor">@color/black</item>
 		<item name="cornerRadius">0dp</item>
+	</style>
+
+	<!--ツールバー-->
+	<style name="Widget.Rumi.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+		<item name="titleTextColor">@color/white</item>
+		<item name="android:background">?attr/colorPrimary</item>
 	</style>
 </resources>
