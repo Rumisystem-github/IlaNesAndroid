@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
 import java.util.List;
 
+import su.rumishistem.android.ilanesandroid.Adapter.CommentListAdapter;
 import su.rumishistem.android.ilanesandroid.Module.API;
 import su.rumishistem.android.ilanesandroid.Module.IPCHTTP;
 import su.rumishistem.android.ilanesandroid.Module.IllustImageManager;
@@ -89,6 +91,21 @@ public class IllustView extends AppCompatActivity {
 						UserNameTextView.setText(User.get("NAME").asText());
 					}
 				});
+
+				//コメント
+				JsonNode CommentResult = API.RunGet("Comment?ILLUST=" + ID + "&PAGE=1", Token);
+				if (CommentResult.get("STATUS").asBoolean()) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							ListView CommentList = findViewById(R.id.CommentList);
+							CommentListAdapter Adapter = new CommentListAdapter(CTX, CommentResult.get("LIST"));
+							CommentList.setAdapter(Adapter);
+						}
+					});
+				} else {
+					//TODO:失敗時の処理
+				}
 			}
 		}).start();
 	}

@@ -57,25 +57,43 @@ public class IllustListAdapter extends BaseAdapter {
 		TextView UserName = ConvertView.findViewById(R.id.user_name);
 
 		Title.setText(Row.get("TITLE").asText());
-		UserIcon.setImageBitmap(UserIconManager.Get(Row.get("ACCOUNT").get("UID").asText()));
 		UserName.setText(Row.get("ACCOUNT").get("NAME").asText());
 
-		Bitmap Original = IllustThumbnailManager.Get(Row.get("ID").asText());
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				//アイコン
+				Bitmap Icon = UserIconManager.Get(Row.get("ACCOUNT").get("UID").asText());
+				((android.app.Activity) CTX).runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						UserIcon.setImageBitmap(Icon);
+					}
+				});
 
-		if (!(Original == null || Original.getWidth() <= 0 || Original.getHeight() <= 0)) {
-			int TargetWidth = 180;
-			int TargetHeight = 195;
-			int Width = Original.getWidth();
-			int Height = Original.getHeight();
-			float Scale = Math.min((float)TargetWidth / Width, (float)TargetHeight / Height);
-			int ScaledWidth = Math.round(Width * Scale);
-			int ScaledHeight = Math.round(Height * Scale);
+				//サムネ
+				Bitmap Original = IllustThumbnailManager.Get(Row.get("ID").asText());
+				if (!(Original == null || Original.getWidth() <= 0 || Original.getHeight() <= 0)) {
+					int TargetWidth = 180;
+					int TargetHeight = 195;
+					int Width = Original.getWidth();
+					int Height = Original.getHeight();
+					float Scale = Math.min((float)TargetWidth / Width, (float)TargetHeight / Height);
+					int ScaledWidth = Math.round(Width * Scale);
+					int ScaledHeight = Math.round(Height * Scale);
 
-			if (!(ScaledWidth <= 0 || ScaledHeight <= 0)) {
-				Bitmap ScaledBitmap = Bitmap.createScaledBitmap(Original, ScaledWidth, ScaledHeight, true);
-				Thumbnail.setImageBitmap(ScaledBitmap);
+					if (!(ScaledWidth <= 0 || ScaledHeight <= 0)) {
+						Bitmap ScaledBitmap = Bitmap.createScaledBitmap(Original, ScaledWidth, ScaledHeight, true);
+						((android.app.Activity) CTX).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Thumbnail.setImageBitmap(ScaledBitmap);
+							}
+						});
+					}
+				}
 			}
-		}
+		}).start();
 
 		Thumbnail.setOnClickListener(new View.OnClickListener() {
 			@Override
