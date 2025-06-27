@@ -189,7 +189,15 @@ public class API {
 
 	public static byte[] GetThumbnail(String ID) {
 		try {
-			HttpURLConnection Connection = OpenConnection(GetAPIHost.HTTP() + "GetThumbnail?ID=" + URLEncoder.encode(ID));
+			JsonNode Result = RunGet("GetThumbnail?ID=" + URLEncoder.encode(ID), "");
+			if (!Result.get("STATUS").asBoolean()) {
+				throw new Error("接続失敗");
+			}
+
+			String FileURL = Result.get("URL").asText();
+			FileURL = FileURL.replace("https://ilanes.rumiserver.com/", GetAPIHost.HTTP().replace("/api/", "/"));
+
+			HttpURLConnection Connection = OpenConnection(FileURL);
 			Connection.setRequestMethod("GET");
 
 			//応答を取得
@@ -215,7 +223,15 @@ public class API {
 
 	public static byte[] GetImage(String ID, int Page, String Token) {
 		try {
-			HttpURLConnection Connection = OpenConnection(GetAPIHost.HTTP() + "GetIMAGE?ID=" + URLEncoder.encode(ID) + "&PAGE=" + Page);
+			JsonNode Result = RunGet("GetIMAGE?ID=" + URLEncoder.encode(ID) + "&PAGE=" + Page, Token);
+			if (!Result.get("STATUS").asBoolean()) {
+				throw new Error("接続失敗");
+			}
+
+			String FileURL = Result.get("URL").asText();
+			FileURL = FileURL.replace("https://ilanes.rumiserver.com/", GetAPIHost.HTTP().replace("/api/", "/"));
+
+			HttpURLConnection Connection = OpenConnection(FileURL);
 			Connection.setRequestMethod("GET");
 
 			if (Token != null) {
