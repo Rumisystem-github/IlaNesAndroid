@@ -28,5 +28,6 @@
 
 		<activity android:name=".Activity.IllustView" />
 		<activity android:name=".Activity.UserView" />
+		<activity android:name=".Activity.CommentView" />
 	</application>
 </manifest>

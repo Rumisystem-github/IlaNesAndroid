@@ -17,9 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import su.rumishistem.android.ilanesandroid.Adapter.CommentListAdapter;
+import su.rumishistem.android.ilanesandroid.Adapter.IllustListAdapter;
+import su.rumishistem.android.ilanesandroid.Adapter.UserIllustListAdapter;
 import su.rumishistem.android.ilanesandroid.Module.API;
 import su.rumishistem.android.ilanesandroid.Module.IPCHTTP;
 import su.rumishistem.android.ilanesandroid.Module.IllustImageManager;
+import su.rumishistem.android.ilanesandroid.Module.ListViewHeightBasedOnChildren;
 import su.rumishistem.android.ilanesandroid.Module.UserIconManager;
 import su.rumishistem.android.ilanesandroid.R;
 
@@ -102,6 +105,12 @@ public class IllustView extends AppCompatActivity {
 								OpenUserView(User.get("UID").asText());
 							}
 						});
+
+						//おすすめ
+						IllustListAdapter Adapter = new IllustListAdapter(CTX, Osusume);
+						ListView OsusumeListView = findViewById(R.id.OsusumeList);
+						OsusumeListView.setAdapter(Adapter);
+						ListViewHeightBasedOnChildren.set(OsusumeListView);
 					}
 				});
 

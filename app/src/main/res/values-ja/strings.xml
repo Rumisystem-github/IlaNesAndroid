@@ -10,4 +10,7 @@
 	<string name="home_follow">フォロー中</string>
 	<string name="home_bookmark">ブクマ中</string>
 	<string name="home_all">全て</string>
+	<string name="comment">コメント</string>
+	<string name="osusume">おすすめ</string>
+	<string name="illust">イラスト</string>
 </resources>

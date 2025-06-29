@@ -4,57 +4,96 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
-	<ScrollView
+	<LinearLayout
+			android:orientation="vertical"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
-		<LinearLayout
-				android:orientation="vertical"
+		<!--タイトル-->
+		<androidx.appcompat.widget.Toolbar
+				android:id="@+id/Toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				app:title="@string/illust" />
+
+		<ScrollView
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
-			<!--イラストのImageViewをぶち込む-->
 			<LinearLayout
-					android:id="@+id/illust_list"
 					android:orientation="vertical"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content" />
-			<!--タイトル-->
-			<TextView
-					android:text=""
-					android:textIsSelectable="true"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/title" />
-			<!--説明欄-->
-			<TextView
-					android:text="読み込み中"
-					android:textIsSelectable="true"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/desc" />
+					android:layout_height="match_parent">
 
-			<!--ユーザー情報-->
-			<LinearLayout
-					android:orientation="horizontal"
-					android:layout_marginLeft="10sp"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
-				<ImageView
-						android:layout_width="45sp"
-						android:layout_height="45sp"
-						tools:srcCompat="@tools:sample/avatars"
-						android:id="@+id/user_icon" />
+				<!--イラストのImageViewをぶち込む-->
+				<LinearLayout
+						android:id="@+id/illust_list"
+						android:orientation="vertical"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				<!--タイトル-->
 				<TextView
 						android:text=""
+						android:textIsSelectable="true"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/title" />
+				<!--説明欄-->
+				<TextView
+						android:text="読み込み中"
+						android:textIsSelectable="true"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:id="@+id/user_name" />
-			</LinearLayout>
+						android:id="@+id/desc" />
 
-			<!--コメント-->
-			<ListView
-					android:id="@+id/CommentList"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" />
-		</LinearLayout>
-	</ScrollView>
+				<!--ユーザー情報-->
+				<LinearLayout
+						android:orientation="horizontal"
+						android:layout_marginLeft="10sp"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+					<ImageView
+							android:layout_width="45sp"
+							android:layout_height="45sp"
+							tools:srcCompat="@tools:sample/avatars"
+							android:id="@+id/user_icon" />
+					<TextView
+							android:text=""
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:id="@+id/user_name" />
+				</LinearLayout>
+
+				<View
+						android:layout_width="match_parent"
+						android:layout_height="1dp"
+						android:background="#C0C0C0" />
+
+				<!--コメント-->
+				<TextView
+						android:text="@string/comment"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				<ListView
+						android:layout_marginLeft="20sp"
+						android:layout_marginRight="20sp"
+						android:id="@+id/CommentList"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+
+				<View
+						android:layout_width="match_parent"
+						android:layout_height="1dp"
+						android:background="#C0C0C0" />
+
+				<!--おすすめ-->
+				<TextView
+						android:text="@string/osusume"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				<ListView
+						android:id="@+id/OsusumeList"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

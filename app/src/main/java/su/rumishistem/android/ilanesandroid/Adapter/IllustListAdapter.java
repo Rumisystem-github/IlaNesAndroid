@@ -47,6 +47,8 @@ public class IllustListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int I, View ConvertView, ViewGroup Parent) {
 		JsonNode Row = ItemList.get(I);
+		JsonNode Illust = Row.get("ILLUST");
+		JsonNode User = Row.get("ACCOUNT");
 
 		if (ConvertView == null) {
 			ConvertView = Inflater.inflate(R.layout.illust_item, Parent, false);
@@ -57,14 +59,14 @@ public class IllustListAdapter extends BaseAdapter {
 		ImageView UserIcon = ConvertView.findViewById(R.id.user_icon);
 		TextView UserName = ConvertView.findViewById(R.id.user_name);
 
-		Title.setText(Row.get("TITLE").asText());
-		UserName.setText(Row.get("ACCOUNT").get("NAME").asText());
+		Title.setText(Illust.get("TITLE").asText());
+		UserName.setText(User.get("NAME").asText());
 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				//アイコン
-				Bitmap Icon = UserIconManager.Get(Row.get("ACCOUNT").get("UID").asText());
+				Bitmap Icon = UserIconManager.Get(User.get("UID").asText());
 				((android.app.Activity) CTX).runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -73,7 +75,7 @@ public class IllustListAdapter extends BaseAdapter {
 				});
 
 				//サムネ
-				Bitmap Original = IllustThumbnailManager.Get(Row.get("ID").asText());
+				Bitmap Original = IllustThumbnailManager.Get(Illust.get("ID").asText());
 				if (!(Original == null || Original.getWidth() <= 0 || Original.getHeight() <= 0)) {
 					int TargetWidth = 180;
 					int TargetHeight = 195;
@@ -101,7 +103,7 @@ public class IllustListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View view) {
 				Intent INT = new Intent(CTX, IllustView.class);
-				INT.putExtra("ID", Row.get("ID").asText());
+				INT.putExtra("ID", Illust.get("ID").asText());
 				CTX.startActivity(INT);
 			}
 		});
@@ -110,13 +112,13 @@ public class IllustListAdapter extends BaseAdapter {
 		UserIcon.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				OpenUserView(Row.get("ACCOUNT").get("UID").asText());
+				OpenUserView(User.get("UID").asText());
 			}
 		});
 		UserName.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				OpenUserView(Row.get("ACCOUNT").get("UID").asText());
+				OpenUserView(User.get("UID").asText());
 			}
 		});
 

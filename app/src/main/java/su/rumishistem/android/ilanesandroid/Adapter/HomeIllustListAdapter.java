@@ -11,19 +11,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import su.rumishistem.android.ilanesandroid.Activity.CommentView;
+import su.rumishistem.android.ilanesandroid.Activity.IllustView;
 import su.rumishistem.android.ilanesandroid.Activity.UserView;
+import su.rumishistem.android.ilanesandroid.Module.IllustThumbnailManager;
 import su.rumishistem.android.ilanesandroid.Module.UserIconManager;
 import su.rumishistem.android.ilanesandroid.R;
 
-public class CommentListAdapter extends BaseAdapter {
+public class HomeIllustListAdapter extends BaseAdapter {
 	private Context CTX;
 	private JsonNode ItemList;
 	private LayoutInflater Inflater;
 
-	public CommentListAdapter(Context CTX, JsonNode ItemList) {
+	public HomeIllustListAdapter(Context CTX, JsonNode ItemList) {
 		this.CTX = CTX;
 		this.ItemList = ItemList;
 		this.Inflater = LayoutInflater.from(CTX);
@@ -49,22 +49,21 @@ public class CommentListAdapter extends BaseAdapter {
 		JsonNode Row = ItemList.get(I);
 
 		if (ConvertView == null) {
-			ConvertView = Inflater.inflate(R.layout.comment_item, Parent, false);
+			ConvertView = Inflater.inflate(R.layout.illust_item, Parent, false);
 		}
 
+		ImageView Thumbnail = ConvertView.findViewById(R.id.thumbnail);
+		TextView Title = ConvertView.findViewById(R.id.title);
 		ImageView UserIcon = ConvertView.findViewById(R.id.user_icon);
 		TextView UserName = ConvertView.findViewById(R.id.user_name);
-		TextView Text = ConvertView.findViewById(R.id.text);
-		TextView ReplyCount = ConvertView.findViewById(R.id.reply_count);
 
+		Title.setText(Row.get("TITLE").asText());
 		UserName.setText(Row.get("ACCOUNT").get("NAME").asText());
-		Text.setText(Row.get("TEXT").asText());
-		ReplyCount.setText("返信(" + Row.get("REPLY_COUNT").asText() + ")");
 
-		//アイコン
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				//アイコン
 				Bitmap Icon = UserIconManager.Get(Row.get("ACCOUNT").get("UID").asText());
 				((android.app.Activity) CTX).runOnUiThread(new Runnable() {
 					@Override
@@ -72,10 +71,42 @@ public class CommentListAdapter extends BaseAdapter {
 						UserIcon.setImageBitmap(Icon);
 					}
 				});
+
+				//サムネ
+				Bitmap Original = IllustThumbnailManager.Get(Row.get("ID").asText());
+				if (!(Original == null || Original.getWidth() <= 0 || Original.getHeight() <= 0)) {
+					int TargetWidth = 180;
+					int TargetHeight = 195;
+					int Width = Original.getWidth();
+					int Height = Original.getHeight();
+					float Scale = Math.min((float)TargetWidth / Width, (float)TargetHeight / Height);
+					int ScaledWidth = Math.round(Width * Scale);
+					int ScaledHeight = Math.round(Height * Scale);
+
+					if (!(ScaledWidth <= 0 || ScaledHeight <= 0)) {
+						Bitmap ScaledBitmap = Bitmap.createScaledBitmap(Original, ScaledWidth, ScaledHeight, true);
+						((android.app.Activity) CTX).runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Thumbnail.setImageBitmap(ScaledBitmap);
+							}
+						});
+					}
+				}
 			}
 		}).start();
 
-		//ユーザーを開くやつ
+		//イラストを開く
+		Thumbnail.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent INT = new Intent(CTX, IllustView.class);
+				INT.putExtra("ID", Row.get("ID").asText());
+				CTX.startActivity(INT);
+			}
+		});
+
+		//ユーザーを開く
 		UserIcon.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -86,20 +117,6 @@ public class CommentListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View view) {
 				OpenUserView(Row.get("ACCOUNT").get("UID").asText());
-			}
-		});
-
-		ReplyCount.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				try {
-					Intent INT = new Intent(CTX, CommentView.class);
-					INT.putExtra("ID", Row.get("ID").asText());
-					INT.putExtra("DATA", new ObjectMapper().writeValueAsString(Row));
-					CTX.startActivity(INT);
-				} catch (Exception EX) {
-					EX.printStackTrace();
-				}
 			}
 		});
 

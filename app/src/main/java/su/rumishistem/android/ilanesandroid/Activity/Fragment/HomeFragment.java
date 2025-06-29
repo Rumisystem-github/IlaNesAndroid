@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
@@ -13,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import su.rumishistem.android.ilanesandroid.Activity.MainActivity;
-import su.rumishistem.android.ilanesandroid.Adapter.IllustListAdapter;
+import su.rumishistem.android.ilanesandroid.Adapter.HomeIllustListAdapter;
 import su.rumishistem.android.ilanesandroid.Module.API;
 import su.rumishistem.android.ilanesandroid.R;
 
@@ -47,7 +46,7 @@ public class HomeFragment extends Fragment {
 						ListView FollowLV = V.findViewById(R.id.home_follow);
 						Context CTX = requireContext();
 
-						IllustListAdapter Adapter = new IllustListAdapter(CTX, FollowIllust);
+						HomeIllustListAdapter Adapter = new HomeIllustListAdapter(CTX, FollowIllust);
 						FollowLV.setAdapter(Adapter);
 					}
 				});

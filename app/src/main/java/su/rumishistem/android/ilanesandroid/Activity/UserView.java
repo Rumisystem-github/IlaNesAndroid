@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,10 +14,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import su.rumishistem.android.ilanesandroid.Adapter.IllustListAdapter;
 import su.rumishistem.android.ilanesandroid.Adapter.UserIllustListAdapter;
 import su.rumishistem.android.ilanesandroid.Module.API;
 import su.rumishistem.android.ilanesandroid.Module.IPCHTTP;
+import su.rumishistem.android.ilanesandroid.Module.ListViewHeightBasedOnChildren;
 import su.rumishistem.android.ilanesandroid.Module.UserIconManager;
 import su.rumishistem.android.ilanesandroid.R;
 
@@ -77,30 +74,10 @@ public class UserView extends AppCompatActivity {
 						UserIllustListAdapter Adapter = new UserIllustListAdapter(CTX, IllustList, User);
 						ListView IllustListView = findViewById(R.id.illust_list);
 						IllustListView.setAdapter(Adapter);
-						setListViewHeightBasedOnChildren(IllustListView);
+						ListViewHeightBasedOnChildren.set(IllustListView);
 					}
 				});
 			}
 		}).start();
-	}
-
-	public static void setListViewHeightBasedOnChildren(ListView LV) {
-		ListAdapter Adapter = LV.getAdapter();
-		if (Adapter == null) return;
-
-		int TotalHeight = 0;
-		for (int I = 0; I < Adapter.getCount(); I++) {
-			View Item = Adapter.getView(I, null, LV);
-			Item.measure(
-				View.MeasureSpec.makeMeasureSpec(LV.getWidth(), View.MeasureSpec.UNSPECIFIED),
-				View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-			);
-			TotalHeight += Item.getMeasuredHeight();
-		}
-
-		ViewGroup.LayoutParams Params = LV.getLayoutParams();
-		Params.height = TotalHeight + (LV.getDividerHeight() * (LV.getCount() - 1));
-		LV.setLayoutParams(Params);
-		LV.requestLayout();
 	}
 }
