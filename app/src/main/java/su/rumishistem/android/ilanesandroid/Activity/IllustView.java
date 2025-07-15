@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -13,7 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import su.rumishistem.android.ilanesandroid.Adapter.CommentListAdapter;
@@ -46,6 +51,57 @@ public class IllustView extends AppCompatActivity {
 		super.onCreate(SavedInstanceState);
 
 		setContentView(R.layout.illust_view);
+
+		Button CommentButton = findViewById(R.id.comment_button);
+		CommentButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View V) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							EditText CommentText = findViewById(R.id.comment_text);
+							String Text = CommentText.getText().toString();
+
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									CommentButton.setActivated(false);
+									CommentText.setActivated(false);
+								}
+							});
+
+							HashMap<String, String> Body = new HashMap<>();
+							Body.put("TEXT", Text);
+							JsonNode Return = API.RunPost("Comment?ILLUST=" + ID, new ObjectMapper().writeValueAsString(Body), Token);
+							if (Return.get("STATUS").asBoolean()) {
+								//成功
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										CommentText.setText("");
+									}
+								});
+
+								RefreshCommentList();
+							} else {
+								//エラー
+							}
+
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									CommentButton.setActivated(true);
+									CommentText.setActivated(true);
+								}
+							});
+						} catch (Exception EX) {
+							EX.printStackTrace();
+						}
+					}
+				}).start();
+			}
+		});
 
 		new Thread(new Runnable() {
 			@Override
@@ -115,21 +171,26 @@ public class IllustView extends AppCompatActivity {
 				});
 
 				//コメント
-				JsonNode CommentResult = API.RunGet("Comment?ILLUST=" + ID + "&PAGE=1", Token);
-				if (CommentResult.get("STATUS").asBoolean()) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							ListView CommentList = findViewById(R.id.CommentList);
-							CommentListAdapter Adapter = new CommentListAdapter(CTX, CommentResult.get("LIST"));
-							CommentList.setAdapter(Adapter);
-						}
-					});
-				} else {
-					//TODO:失敗時の処理
-				}
+				RefreshCommentList();
 			}
 		}).start();
+	}
+
+	private void RefreshCommentList() {
+		JsonNode CommentResult = API.RunGet("Comment?ILLUST=" + ID + "&PAGE=1", Token);
+		if (CommentResult.get("STATUS").asBoolean()) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					ListView CommentList = findViewById(R.id.CommentList);
+					CommentListAdapter Adapter = new CommentListAdapter(CTX, CommentResult.get("LIST"));
+					CommentList.setAdapter(Adapter);
+					ListViewHeightBasedOnChildren.set(CommentList);
+				}
+			});
+		} else {
+			//TODO:失敗時の処理
+		}
 	}
 
 	private void OpenUserView(String UID) {

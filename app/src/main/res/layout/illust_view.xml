@@ -23,6 +23,24 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent">
 
+				<!--ユーザー情報-->
+				<LinearLayout
+						android:orientation="horizontal"
+						android:layout_marginLeft="10sp"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+					<ImageView
+							android:layout_width="45sp"
+							android:layout_height="45sp"
+							tools:srcCompat="@tools:sample/avatars"
+							android:id="@+id/user_icon" />
+					<TextView
+							android:text=""
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:id="@+id/user_name" />
+				</LinearLayout>
+
 				<!--イラストのImageViewをぶち込む-->
 				<LinearLayout
 						android:id="@+id/illust_list"
@@ -44,24 +62,6 @@
 						android:layout_height="wrap_content"
 						android:id="@+id/desc" />
 
-				<!--ユーザー情報-->
-				<LinearLayout
-						android:orientation="horizontal"
-						android:layout_marginLeft="10sp"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content">
-					<ImageView
-							android:layout_width="45sp"
-							android:layout_height="45sp"
-							tools:srcCompat="@tools:sample/avatars"
-							android:id="@+id/user_icon" />
-					<TextView
-							android:text=""
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/user_name" />
-				</LinearLayout>
-
 				<View
 						android:layout_width="match_parent"
 						android:layout_height="1dp"
@@ -72,6 +72,21 @@
 						android:text="@string/comment"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content" />
+				<!--コメント投稿-->
+				<EditText
+						android:id="@+id/comment_text"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="@string/comment"
+						android:inputType="textMultiLine"
+						android:minLines="4"
+						android:scrollbars="vertical" />
+				<Button
+						android:text="@string/comment"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/comment_button" />
+				<!--コメント一覧-->
 				<ListView
 						android:layout_marginLeft="20sp"
 						android:layout_marginRight="20sp"

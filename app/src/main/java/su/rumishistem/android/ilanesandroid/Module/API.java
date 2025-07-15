@@ -52,7 +52,7 @@ public class API {
 
 	public static JsonNode RunPost(String Path, String Body, String Token) {
 		try {
-			return SendBodyHTTP(GetAPIHost.HTTP() + Path, Body.getBytes(StandardCharsets.UTF_8), "POST", new HashMap<String, String>(){
+			return SendBodyHTTP(Path, Body.getBytes(StandardCharsets.UTF_8), "POST", new HashMap<String, String>(){
 				{
 					put("Content-Type", "application/json; charset=UTF-8");
 					put("Accept", "application/json");
@@ -77,7 +77,7 @@ public class API {
 
 	public static JsonNode RunPostByte(String Path, byte[] Body, String Token) {
 		try {
-			return SendBodyHTTP(GetAPIHost.HTTP() + Path, Body, "POST", new HashMap<String, String>(){
+			return SendBodyHTTP(Path, Body, "POST", new HashMap<String, String>(){
 				{
 					put("Content-Type", "application/json; charset=UTF-8");
 					put("Accept", "application/json");
@@ -102,7 +102,7 @@ public class API {
 
 	public static JsonNode RunPatch(String Path, String Body, String Token) {
 		try {
-			return SendBodyHTTP(GetAPIHost.HTTP() + Path, Body.getBytes(StandardCharsets.UTF_8), "PATCH", new HashMap<String, String>(){
+			return SendBodyHTTP(Path, Body.getBytes(StandardCharsets.UTF_8), "PATCH", new HashMap<String, String>(){
 				{
 					put("Content-Type", "application/json; charset=UTF-8");
 					put("Accept", "application/json");
