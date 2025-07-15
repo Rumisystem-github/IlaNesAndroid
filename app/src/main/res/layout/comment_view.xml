@@ -31,12 +31,12 @@
 						android:id="@+id/comment_text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:hint="@string/comment"
+						android:hint="@string/reply"
 						android:inputType="textMultiLine"
 						android:minLines="4"
 						android:scrollbars="vertical" />
 				<Button
-						android:text="@string/comment"
+						android:text="@string/reply"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:id="@+id/comment_button" />
