@@ -21,11 +21,13 @@ import su.rumishistem.android.ilanesandroid.R;
 public class CommentListAdapter extends BaseAdapter {
 	private Context CTX;
 	private JsonNode ItemList;
+	private String IllustID;
 	private LayoutInflater Inflater;
 
-	public CommentListAdapter(Context CTX, JsonNode ItemList) {
+	public CommentListAdapter(Context CTX, JsonNode ItemList, String IllustID) {
 		this.CTX = CTX;
 		this.ItemList = ItemList;
+		this.IllustID = IllustID;
 		this.Inflater = LayoutInflater.from(CTX);
 	}
 
@@ -95,6 +97,7 @@ public class CommentListAdapter extends BaseAdapter {
 				try {
 					Intent INT = new Intent(CTX, CommentView.class);
 					INT.putExtra("ID", Row.get("ID").asText());
+					INT.putExtra("ILLUST_ID", IllustID);
 					INT.putExtra("DATA", new ObjectMapper().writeValueAsString(Row));
 					CTX.startActivity(INT);
 				} catch (Exception EX) {

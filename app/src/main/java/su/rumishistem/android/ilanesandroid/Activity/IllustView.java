@@ -183,7 +183,7 @@ public class IllustView extends AppCompatActivity {
 				@Override
 				public void run() {
 					ListView CommentList = findViewById(R.id.CommentList);
-					CommentListAdapter Adapter = new CommentListAdapter(CTX, CommentResult.get("LIST"));
+					CommentListAdapter Adapter = new CommentListAdapter(CTX, CommentResult.get("LIST"), ID);
 					CommentList.setAdapter(Adapter);
 					ListViewHeightBasedOnChildren.set(CommentList);
 				}
